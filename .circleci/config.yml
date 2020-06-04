@@ -2,7 +2,7 @@ version: 2.1
 orbs:
   node: circleci/node@1.1.6
 jobs:
-  build-and-test:
+  build:
     executor:
       name: node/default
     steps:
@@ -10,8 +10,38 @@ jobs:
       - node/with-cache:
           steps:
             - run: npm install
-            - run: npm test
+            - run: npm build      
+  test:
+    executor:
+      name: node/default
+    steps:
+      - checkout
+      - node/with-cache:
+          steps:
+            - run: npm install
+            - run: npm test 
+  deploy:
+    executor:
+      name: node/default
+    steps:
+      - checkout
+      - node/with-cache:
+          steps:
+            - run: | echo "$DOCKER_PWD" | docker login --username $DOCKER_LOGIN--password-stdin
+              docker run -d --name $DOCKER_IMAGE
+
+           # build the application image
+            - run: docker build -t $DOCKER_IMAGE .
+
+           # deploy the image
+            - run: docker push $DOCKER_IMAGE
 workflows:
-    build-and-test:
+    build-test:
       jobs:
-        - build-and-test
+        - build
+        - test:
+            requires:
+              - build
+           
+        
+          

@@ -14,7 +14,7 @@ const Cell = ({onClick = () => {}, value = "?", index}) => {
   }
 
   return(
-    <div style={style} onMouseOut={() => handleMouseEvent("onMouseOut")} index={() => handleMouseEvent("onMouseOver")} 
+    <div style={style} onMouseOut={() => handleMouseEvent("onMouseOut")} onMouseOver={() => handleMouseEvent("onMouseOver")} 
     onClick={() => onClick(index)}><span style={value === "X" ? styles.blue : styles.green}>{value}</span></div>
   );
 };

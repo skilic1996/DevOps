@@ -2,7 +2,7 @@ version: 2.1
 orbs:
   node: circleci/node@1.1.6
 jobs:
-  build-and-test:
+  build-test:
     executor:
       name: node/default
     steps:
@@ -11,7 +11,19 @@ jobs:
           steps:
             - run: npm install
             - run: npm test
+ # Deploy with Surge task
+  deploy:
+    docker:
+      - image: circleci/node:7.10
+    steps:
+      - checkout
+      - run: npm install surge
+      - run: ./node_modules/.bin/surge tic-tac-toe.surge.sh --token 53830a7da36a45397e105f684ae84fe0          
 workflows:
-    build-and-test:
+    build-test-and-deploy:
       jobs:
-        - build-and-test
+        - build-test
+        - deploy:
+            requires:
+              - build-test
+          

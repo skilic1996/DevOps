@@ -9,6 +9,6 @@ it('GameInfo Component Check Text in Div is Present', () => {
       <GameInfo gameState="stale" labelOff="unkown" />,
     );
   
-    expect(getByTestId(/player1/i).textContent).toBe("Player 1");
+    expect(getByTestId(/player1/i).textContent).toBe("Player 1"); 
 
   });

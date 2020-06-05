@@ -12,7 +12,7 @@ const Board = ({ cells = [], onClickCells = () => {}}) => {
 
   return (
   <div style={boardStyle}>
-    {cells.map((c, i) => (
+    {cells.maps((c, i) => (
       <Cell onClick={onClickCells} value={c} key={i} index={i}/>
     ))}
   </div>
